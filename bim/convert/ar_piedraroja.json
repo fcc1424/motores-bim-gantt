@@ -1,0 +1,5 @@
+{"origen": [22.0, 5.3],
+ "variantes": {
+  "obra": {"capas": ["cab1", "aceras", "cab2", "cabext"], "escala": 1, "terreno": false, "flecha": 4},
+  "maqueta": {"capas": ["cab1", "aceras", "cab2", "cabn", "cabext", "vial", "canal", "cercos", "constr", "arboles", "mob", "eq9a", "faja", "predio", "bnup", "acceso", "senal"],
+              "escala": 0.005, "terreno": true, "recorte": [-45, -45, 95, 80], "paso": 2, "flecha": 8}}}

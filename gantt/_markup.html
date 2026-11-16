@@ -1,0 +1,246 @@
+<div class="app">
+  <header class="top">
+    <div class="ttl">
+      <h1 id="pTitle">Edificio Miraflores</h1>
+      <p id="pSub" hidden=""></p>
+    </div>
+    <div class="actions">
+      <span class="savestate" id="saveState"></span>
+      <button class="btn" id="bUndo" title="Deshacer (Ctrl+Z)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 3 2 6l3 3"></path><path d="M2 6h7.5a4 4 0 0 1 0 8H7"></path></svg>Deshacer</button>
+      <button class="btn" id="bRedo" title="Rehacer (Ctrl+Y)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m11 3 3 3-3 3"></path><path d="M14 6H6.5a4 4 0 0 0 0 8H9"></path></svg>Rehacer</button>
+      <button class="btn primary" id="bSave" title="Publica una nueva versión de esta carta Gantt con los cambios">Guardar versión</button>
+    </div>
+  </header>
+
+  <section class="overview" aria-label="Resumen del proyecto">
+    <div class="stats" id="stats"></div>
+    <svg id="strip" role="img" aria-label="Franja del proyecto con avance, fecha de estado e hitos clave"></svg>
+  </section>
+
+  <nav class="ribbon" aria-label="Herramientas">
+    <div class="grp"><div class="row">
+      <button class="rb" data-act="addTask" title="Insertar tarea (Insert)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="9" height="6" rx="1"></rect><path d="M13 3v4M11 5h4"></path></svg>Tarea</button>
+      <button class="rb" data-act="addMilestone" title="Insertar hito"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M7 2.5 11.5 7 7 11.5 2.5 7z"></path><path d="M13 9v5M10.5 11.5h5" stroke="currentColor" stroke-width="1.5"></path></svg>Hito</button>
+      <button class="rb" data-act="del" title="Eliminar tarea (Supr)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.7 9h5.6l.7-9"></path></svg>Eliminar</button>
+      <button class="rb" data-act="info" title="Información de la tarea (doble clic en el Id)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"></circle><path d="M8 7.2V11.5M8 4.6v.2"></path></svg>Información</button>
+    </div><div class="cap">Tarea</div></div>
+
+    <div class="grp"><div class="row">
+      <button class="rb" data-act="outdent" title="Disminuir nivel (Alt+Mayús+←)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 4h7M7 8h7M7 12h7M5 5.5 2.5 8 5 10.5"></path></svg>Subir nivel</button>
+      <button class="rb" data-act="indent" title="Aumentar nivel (Alt+Mayús+→)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 4h7M7 8h7M7 12h7M2.5 5.5 5 8l-2.5 2.5"></path></svg>Bajar nivel</button>
+      <button class="rb" data-act="link" title="Vincular las tareas seleccionadas (fin a comienzo)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6.5 9.5 9.5 6.5"></path><path d="M7 4.5 8.5 3a2.5 2.5 0 0 1 3.5 3.5L10.5 8M9 11.5 7.5 13A2.5 2.5 0 0 1 4 9.5L5.5 8"></path></svg>Vincular</button>
+      <button class="rb" data-act="unlink" title="Quitar vínculos de las tareas seleccionadas"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 4.5 8.5 3a2.5 2.5 0 0 1 3.5 3.5L10.5 8M9 11.5 7.5 13A2.5 2.5 0 0 1 4 9.5L5.5 8M2 2l12 12"></path></svg>Desvincular</button>
+    </div><div class="cap">Esquema y vínculos</div></div>
+
+    <div class="grp"><div class="row">
+      <select class="sel" id="selTable" aria-label="Tabla"><option value="entrada">Tabla: Entrada</option><option value="seguimiento">Tabla: Seguimiento</option><option value="variacion">Tabla: Variación</option><option value="edt">Tabla: EDT</option><option value="cobro">Tabla: Cobros por partida (EP)</option></select>
+      <select class="sel" id="selFilter" aria-label="Filtro"><option value="all">Todas las tareas</option><option value="crit">Tareas críticas</option><option value="mil">Hitos</option><option value="late">Tareas atrasadas</option><option value="prog">Tareas en curso</option><option value="open">Tareas no completadas</option><option value="over">Partidas con sobrecobro</option></select>
+      <select class="sel" id="selOutline" aria-label="Mostrar esquema"><option value="">Esquema…</option><option value="99">Todas las subtareas</option><option value="1">Nivel 1</option><option value="2">Nivel 2</option><option value="3">Nivel 3</option></select>
+    </div><div class="cap">Datos</div></div>
+
+    <div class="grp"><div class="row">
+      <select class="sel" id="selZoom" aria-label="Escala de tiempo"><option value="dias">Días</option><option value="semanas">Semanas</option><option value="meses">Meses</option><option value="trimestres">Trimestres</option><option value="anos">Años</option></select>
+      <button class="rb" data-act="goTask" title="Desplazar el Gantt a la tarea seleccionada"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="6" width="9" height="4" rx="1"></rect><path d="M1.5 8H4M3 6.5 4.5 8 3 9.5"></path></svg>Ir a tarea</button>
+      <button class="rb" data-act="goStatus" title="Desplazar el Gantt a la fecha de estado"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.5v13"></path><rect x="2" y="5" width="4" height="3" rx=".5"></rect><rect x="9" y="9" width="5" height="3" rx=".5"></rect></svg>Fecha de estado</button>
+    </div><div class="cap">Escala de tiempo</div></div>
+
+    <div class="grp"><div class="row">
+      <label class="chk"><input type="checkbox" id="cbCrit">Ruta crítica</label>
+      <label class="chk"><input type="checkbox" id="cbBase">Línea base</label>
+      <label class="chk"><input type="checkbox" id="cbLinks">Vínculos</label>
+      <label class="chk"><input type="checkbox" id="cbSlack">Holgura</label>
+    </div><div class="cap">Formato de barras</div></div>
+
+    <div class="grp"><div class="row">
+      <button class="rb" data-act="setBaseline" title="Guarda las fechas actuales como línea base">Establecer línea base</button>
+      <button class="rb" data-act="project" title="Nombre, fecha de comienzo, fecha de estado y feriados"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="11" rx="1"></rect><path d="M2 6.5h12M5 1.5v3M11 1.5v3"></path></svg>Proyecto y calendario</button>
+      <div class="dropwrap">
+        <button class="rb" id="bExport" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8M5 7l3 3 3-3M3 12.5h10"></path></svg>Exportar</button>
+        <div class="menu" id="mExport" hidden="">
+          <button data-exp="pdf">PDF de la carta Gantt<small>Tabla y barras, listo para imprimir</small></button>
+          <button data-exp="xml">XML de MS Project<small>Se abre en Microsoft Project (Archivo › Abrir)</small></button>
+          <button data-exp="csv">CSV para Excel<small>Tabla con fechas, avance y línea base</small></button>
+          <button data-exp="json">Respaldo JSON<small>Se puede volver a importar aquí</small></button>
+        </div>
+      </div>
+      <button class="rb" data-act="import" title="Cargar un respaldo JSON"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 10V2M5 5l3-3 3 3M3 12.5h10"></path></svg>Importar</button>
+    </div><div class="cap">Proyecto</div></div>
+  </nav>
+
+  <div class="banner" id="banner" hidden=""></div>
+  <div class="cbar" id="cbar" aria-label="Cobros por partida">
+    <span class="lg"><i style="background:var(--prog)"></i>Cobrado</span>
+    <span class="lg"><i style="background:var(--crit)"></i>Cobrado sobre el avance (sobrecobro)</span>
+    <span class="lg"><i class="tk"></i>Avance físico real</span>
+    <span id="cbInfo"></span>
+    <span class="sp"></span>
+    <select id="cbUnit" aria-label="Moneda"><option value="$">Montos en $</option><option value="UF">Montos en UF</option></select>
+    <button class="btn" type="button" id="cbImport" title="Carga el EP por partida desde un CSV (Id o EDT; Monto total; Cobrado acumulado)">Cargar EP (CSV)</button>
+  </div>
+  <input type="file" id="cbFile" accept=".csv,.txt,text/csv" hidden>
+
+  <div class="mobtabs" role="group" aria-label="Vista">
+    <button data-pane="grid" aria-pressed="true">Tabla</button>
+    <button data-pane="chart" aria-pressed="false">Gantt</button>
+  </div>
+
+  <main class="split m-grid" id="split">
+    <section class="gridpane" id="gridPane" aria-label="Tabla de tareas"><table class="grid" id="grid"></table></section>
+    <div class="splitter" id="splitter" role="separator" aria-orientation="vertical" aria-label="Ajustar división" tabindex="0"></div>
+    <section class="chartpane" id="chartPane" aria-label="Diagrama de Gantt">
+      <div class="chead" id="chartHead"></div>
+      <div id="chartBody"></div>
+    </section>
+  </main>
+
+  <footer class="status" id="statusBar">
+    <span id="sbLeft"></span>
+    <span id="sbMid"></span>
+    <span class="zm"><span>Escala</span><input type="range" id="zoomRange" min="0" max="4" step="1" aria-label="Escala de tiempo"></span>
+  </footer>
+</div>
+
+<div id="tip" class="tip" hidden=""></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<dialog id="dlgTask" aria-labelledby="dtH">
+  <form method="dialog" id="fTask" novalidate="">
+    <div class="dh" id="dtH">Información de la tarea</div>
+    <div class="tabs" role="tablist" aria-label="Secciones">
+      <button type="button" class="tab" role="tab" data-tab="general">General</button>
+      <button type="button" class="tab" role="tab" data-tab="pred">Predecesoras</button>
+      <button type="button" class="tab" role="tab" data-tab="rec">Recursos</button>
+      <button type="button" class="tab" role="tab" data-tab="adv">Avanzado</button>
+      <button type="button" class="tab" role="tab" data-tab="notes">Notas</button>
+      <button type="button" class="tab" role="tab" data-tab="custom">Campos pers.</button>
+    </div>
+    <div class="tihead">
+      <label class="fl">Nombre<input id="tName"></label>
+      <label class="fl">Duración<input id="tDur" placeholder="20 días"></label>
+      <label class="fc" style="height:32px"><input type="checkbox" id="tEst">Estimada</label>
+    </div>
+
+    <div class="tabpanel" role="tabpanel" data-panel="general">
+      <div class="fgrid">
+        <label class="fl">Porcentaje completado<input id="tPct" type="number" min="0" max="100" step="1"></label>
+        <label class="fl">Prioridad<input id="tPrio" type="number" min="0" max="1000" step="1"></label>
+        <fieldset class="radios"><legend>Modo de programación</legend>
+          <label class="fc"><input type="radio" name="tMode" value="manual">Programada manualmente</label>
+          <label class="fc"><input type="radio" name="tMode" value="auto">Programada automáticamente</label>
+        </fieldset>
+        <div style="align-self:end"><label class="fc"><input type="checkbox" id="tInactive">Inactiva</label></div>
+        <div class="sect">Fechas</div>
+        <label class="fl">Inicio<input id="tStart" type="date"></label>
+        <label class="fl">Fin<input id="tFinish" type="date"></label>
+        <div class="sect"></div>
+        <label class="fc full"><input type="checkbox" id="tKey">Mostrar en escala de tiempo</label>
+        <label class="fc full"><input type="checkbox" id="tHide">Ocultar barra</label>
+        <label class="fc full dis"><input type="checkbox" id="tSum" disabled="">Resumida</label>
+      </div>
+    </div>
+
+    <div class="tabpanel" role="tabpanel" data-panel="pred" hidden="">
+      <div class="glbl">Predecesoras (puede tener varias; escribe el Id o elige la tarea por su nombre):</div>
+      <div class="gwrap"><table class="gtab">
+        <thead><tr><th class="rn"></th><th style="width:70px">Id</th><th>Nombre de tarea</th><th style="width:210px">Tipo</th><th style="width:80px">Pos</th><th class="c-x"><span class="sr">Quitar</span></th></tr></thead>
+        <tbody id="tPredRows"></tbody>
+      </table></div>
+      <div class="tlegend">
+        <b>FC</b><span>Fin a comienzo: el final de la predecesora marca el comienzo de esta tarea. Es la dependencia normal.</span>
+        <b>CC</b><span>Comienzo a comienzo: ambas tareas comienzan a la vez, el mismo día.</span>
+        <b>FF</b><span>Fin a fin: ambas tareas terminan en la misma fecha, a la vez.</span>
+        <b>CF</b><span>Comienzo a fin: el comienzo de la predecesora marca el final de esta tarea. Es el caso menos frecuente.</span>
+      </div>
+      <p class="tihint">Pos es la posposición en días laborables: 5d atrasa, -5d adelanta.</p>
+    </div>
+
+    <div class="tabpanel" role="tabpanel" data-panel="rec" hidden="">
+      <div class="glbl">Recursos asignados:</div>
+      <div class="gwrap"><table class="gtab">
+        <thead><tr><th class="rn"></th><th>Nombre del recurso</th><th style="width:120px">Unidades (%)</th><th class="c-x"><span class="sr">Quitar</span></th></tr></thead>
+        <tbody id="tResRows"></tbody>
+      </table></div>
+      <datalist id="resList"></datalist>
+      <p class="tihint">Los nombres aparecen junto a la barra del Gantt y en la columna Nombres de los recursos.</p>
+    </div>
+
+    <div class="tabpanel" role="tabpanel" data-panel="adv" hidden="">
+      <div class="fgrid">
+        <div class="sect">Delimitar tarea</div>
+        <label class="fl full">Fecha límite<input id="tDeadline" type="date"></label>
+        <label class="fl">Tipo de restricción<select id="tCType">
+          <option value="ASAP">Lo antes posible</option><option value="SNET">No comenzar antes del</option><option value="SNLT">No comenzar después del</option>
+          <option value="FNET">No finalizar antes del</option><option value="FNLT">No finalizar después del</option><option value="MSO">Debe comenzar el</option><option value="MFO">Debe finalizar el</option></select></label>
+        <label class="fl">Fecha de restricción<input id="tCDate" type="date"></label>
+        <div class="sect"></div>
+        <label class="fl">Tipo de tarea<select id="tType"><option value="units">Unidades fijas</option><option value="duration">Duración fija</option><option value="work">Trabajo fijo</option></select></label>
+        <div style="align-self:end"><label class="fc"><input type="checkbox" id="tEffort">Condicionada por el esfuerzo</label></div>
+        <label class="fl">Calendario<select id="tCal"><option value="std">Calendario del proyecto (L-V)</option></select></label>
+        <div style="align-self:end"><label class="fc"><input type="checkbox" id="tIgnRes">La programación omite los calendarios de recursos</label></div>
+        <label class="fl">Código EDT<input id="tWbs" readonly=""></label>
+        <label class="fl">Método del valor acumulado<select id="tEvm"><option value="pct">% completado</option><option value="phys">% completado físico</option></select></label>
+        <label class="fc full"><input type="checkbox" id="tMil">Marcar la tarea como hito</label>
+      </div>
+    </div>
+
+    <div class="tabpanel" role="tabpanel" data-panel="notes" hidden="">
+      <label class="fl full" style="height:100%">Notas<textarea id="tNotes"></textarea></label>
+    </div>
+
+    <div class="tabpanel" role="tabpanel" data-panel="custom" hidden="">
+      <div class="glbl">Campos personalizados:</div>
+      <div class="gwrap" style="max-height:none"><table class="gtab">
+        <thead><tr><th style="width:160px">Campo</th><th>Valor</th></tr></thead>
+        <tbody id="tCustRows"></tbody>
+      </table></div>
+    </div>
+
+    <div id="tErr" role="alert"></div>
+    <div class="df"><button type="button" class="btn" id="tCancel">Cancelar</button><button class="btn primary" value="ok" id="tOk">Aceptar</button></div>
+  </form>
+</dialog>
+
+<dialog id="dlgProj" aria-labelledby="dpH">
+  <form method="dialog" id="fProj">
+    <div class="dh" id="dpH">Proyecto y calendario</div>
+    <div class="db">
+      <label class="full">Título<input id="pTitleIn"></label>
+      <label class="full">Nombre del archivo del proyecto<input id="pNameIn"></label>
+      <label class="full">Revisión<input id="pRevIn"></label>
+      <label>Fecha de comienzo del proyecto<input id="pStartIn" type="date" required=""></label>
+      <label>Fecha de estado<input id="pStatusIn" type="date" required=""></label>
+      <label class="full">Feriados (uno por línea: AAAA-MM-DD Nombre)<textarea id="pHolIn" placeholder="2026-12-25 Navidad"></textarea></label>
+      <p class="hint">Calendario estándar: lunes a viernes, 8 horas por día. Los feriados se descuentan de las duraciones y posposiciones.</p>
+      <div class="derr" id="pErr"></div>
+    </div>
+    <div class="df"><button class="btn" value="cancel" formnovalidate="">Cancelar</button><button class="btn primary" value="ok">Aceptar</button></div>
+  </form>
+</dialog>
+
+<dialog id="dlgPdf" aria-labelledby="dfH">
+  <form method="dialog" id="fPdf">
+    <div class="dh" id="dfH">Exportar PDF</div>
+    <div class="db">
+      <label>Tamaño de hoja (horizontal)<select id="pdfSize"><option value="a3">A3</option><option value="a4">A4</option><option value="letter">Carta</option><option value="legal">Oficio</option></select></label>
+      <label>Tareas<select id="pdfScope"><option value="vis">Las que se ven ahora (filtro y esquema)</option><option value="all">Todas las tareas</option></select></label>
+      <label class="inl"><input type="checkbox" id="pdfBase">Línea base</label>
+      <label class="inl"><input type="checkbox" id="pdfCrit">Ruta crítica en rojo</label>
+      <label class="inl"><input type="checkbox" id="pdfLinks">Vínculos entre tareas</label>
+      <label class="inl"><input type="checkbox" id="pdfProg">Avance (% completado)</label>
+      <p class="hint">La escala de tiempo se ajusta al ancho de la hoja. Si hay más tareas de las que caben, el PDF continúa en páginas siguientes.</p>
+      <div class="derr" id="pdfErr"></div>
+    </div>
+    <div class="df"><button class="btn" value="cancel" formnovalidate="">Cancelar</button><button class="btn primary" value="ok" id="pdfOk">Descargar PDF</button></div>
+  </form>
+</dialog>
+
+<dialog id="dlgAsk" aria-labelledby="daH">
+  <form method="dialog">
+    <div class="dh" id="daH">Confirmar</div>
+    <div class="db"><p class="full" id="askMsg" style="grid-column:1/-1;margin:0;line-height:1.5;white-space:pre-line"></p></div>
+    <div class="df"><button class="btn" value="cancel" id="askCancel">Cancelar</button><button class="btn primary" value="ok" id="askOk">Aceptar</button></div>
+  </form>
+</dialog>
+
+<input type="file" id="fileIn" accept=".json,application/json" hidden="">
+

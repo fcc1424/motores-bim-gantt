@@ -1,0 +1,26 @@
+{
+ "titulo": "Strip Center Piedra Roja II",
+ "sub": "Inmobiliaria Brick · Av. Chicureo, Colina",
+ "variantes": {
+  "obra": {
+   "nombre": "En terreno · 1:1",
+   "glb": "obra.glb",
+   "escala": "fixed",
+   "texto": "Cabida piso 1 y 2, aceras a cota 601,35 y estacionamientos a tamaño real (sin la losa de nivel piscina, que va bajo el terreno)."
+  },
+  "maqueta": {
+   "nombre": "Maqueta · 1:200",
+   "glb": "maqueta.glb",
+   "escala": "auto",
+   "texto": "Lote, entorno existente y cabida completa a escala 1:200 para una mesa. Puedes agrandarla o achicarla con dos dedos."
+  }
+ },
+ "origen": "Centro del lote EQ9-A · E 348.322,0 · N 6.316.455,3",
+ "pasos": [
+  "Párate en el centro del lote (punto de origen indicado abajo).",
+  "Toca «Ver en realidad aumentada» y apunta la cámara al suelo, moviendo el celular despacio hasta que detecte el piso.",
+  "Toca el suelo bajo tus pies para ubicar el modelo. Gíralo con dos dedos hasta que la flecha roja apunte al norte (usa la brújula del celular).",
+  "Camina por el terreno: el modelo queda fijo a tamaño real."
+ ],
+ "qr": "<svg viewBox=\"0 0 37 37\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" class=\"segno\"><path fill=\"#fff\" d=\"M0 0h37v37h-37z\"/><path class=\"qrline\" stroke=\"#000\" d=\"M2 2.5h7m3 0h3m1 0h2m2 0h2m3 0h2m1 0h7m-33 1h1m5 0h1m2 0h1m1 0h2m2 0h4m1 0h4m2 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m2 0h3m5 0h1m2 0h1m2 0h1m2 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m6 0h1m1 0h1m2 0h2m2 0h2m2 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m3 0h1m1 0h1m1 0h1m3 0h1m3 0h2m2 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h3m1 0h1m2 0h3m1 0h1m4 0h1m1 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-19 1h4m3 0h2m1 0h1m-25 1h1m2 0h1m1 0h2m1 0h1m1 0h1m1 0h3m3 0h5m2 0h1m1 0h1m-28 1h2m1 0h1m1 0h1m1 0h1m1 0h2m3 0h1m1 0h2m2 0h3m2 0h3m3 0h2m-33 1h1m1 0h1m1 0h1m1 0h1m2 0h1m1 0h2m3 0h1m2 0h3m4 0h3m1 0h3m-33 1h1m2 0h1m1 0h1m4 0h2m2 0h1m1 0h1m2 0h3m6 0h2m-27 1h1m2 0h2m3 0h2m2 0h3m1 0h4m1 0h3m2 0h1m2 0h1m-32 1h2m1 0h2m2 0h1m1 0h1m7 0h5m3 0h1m1 0h1m1 0h3m-31 1h1m1 0h1m1 0h2m2 0h4m2 0h1m6 0h6m1 0h2m-29 1h3m2 0h1m1 0h1m6 0h1m1 0h1m1 0h1m1 0h2m1 0h1m1 0h1m2 0h1m-32 1h1m2 0h4m1 0h3m1 0h2m1 0h1m1 0h1m1 0h3m4 0h1m1 0h1m2 0h1m-32 1h4m1 0h1m1 0h2m2 0h2m1 0h1m1 0h1m6 0h1m1 0h1m1 0h1m1 0h1m-30 1h1m3 0h3m1 0h1m1 0h1m1 0h3m2 0h2m1 0h2m4 0h1m3 0h3m-33 1h2m1 0h1m3 0h1m3 0h1m3 0h1m1 0h1m2 0h2m3 0h1m1 0h1m3 0h1m-32 1h1m3 0h1m1 0h1m1 0h1m1 0h1m1 0h2m1 0h2m3 0h4m1 0h1m5 0h1m-31 1h2m2 0h1m4 0h1m1 0h2m2 0h1m3 0h1m1 0h1m1 0h4m1 0h1m1 0h2m-33 1h3m1 0h7m1 0h2m2 0h1m1 0h2m1 0h2m1 0h1m1 0h2m4 0h1m-32 1h3m3 0h1m4 0h1m1 0h1m1 0h1m1 0h2m1 0h1m2 0h2m2 0h2m1 0h2m-33 1h1m1 0h3m1 0h1m4 0h1m2 0h4m1 0h1m1 0h1m2 0h5m2 0h1m-24 1h4m1 0h1m3 0h1m1 0h2m1 0h3m3 0h2m2 0h1m-33 1h7m2 0h1m2 0h1m1 0h1m2 0h2m1 0h2m2 0h1m1 0h1m1 0h4m-32 1h1m5 0h1m1 0h1m1 0h2m4 0h4m1 0h2m1 0h1m3 0h1m2 0h2m-33 1h1m1 0h3m1 0h1m2 0h1m1 0h1m3 0h1m1 0h1m3 0h2m1 0h6m1 0h2m-33 1h1m1 0h3m1 0h1m1 0h1m3 0h2m2 0h3m1 0h5m1 0h1m1 0h1m1 0h1m-31 1h1m1 0h3m1 0h1m3 0h3m3 0h2m2 0h2m2 0h1m3 0h3m1 0h1m-33 1h1m5 0h1m2 0h1m4 0h1m1 0h3m2 0h1m2 0h3m-27 1h7m1 0h1m2 0h3m2 0h1m1 0h1m2 0h1m2 0h1m1 0h1m1 0h2m1 0h1\"/></svg>"
+}

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Modelo en realidad aumentada</title>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
+<style>
+:root{--bg:#f4f2ee;--paper:#fff;--ink:#1d2125;--mute:#626a72;--line:#dcd8d0;--acc:#b35a1f;--acc-ink:#fff;--chip:#ece8e1}
+@media (prefers-color-scheme:dark){:root{--bg:#15181b;--paper:#1f2327;--ink:#eceae6;--mute:#9aa3ab;--line:#33393f;--acc:#e08a4c;--acc-ink:#1b1206;--chip:#2a2f34}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:14px 16px 8px}
+h1{font-size:18px;margin:0}
+.sub{color:var(--mute);font-size:13px}
+.seg{display:flex;gap:6px;padding:4px 16px 10px;flex-wrap:wrap}
+.seg button{flex:1 1 0;min-width:130px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:10px;padding:9px 10px;font:inherit;font-weight:600;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.stage{position:relative;margin:0 16px;height:min(58vh,520px);border-radius:14px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(#dfe6ea,#f3f1ec)}
+@media (prefers-color-scheme:dark){.stage{background:linear-gradient(#262c31,#1a1e21)}}
+model-viewer{width:100%;height:100%;--poster-color:transparent}
+.arbtn{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);border:0;border-radius:999px;background:var(--acc);color:var(--acc-ink);font:inherit;font-weight:700;padding:12px 20px;box-shadow:0 4px 14px rgba(0,0,0,.25);display:flex;gap:8px;align-items:center;white-space:nowrap}
+.arbtn svg{width:20px;height:20px}
+.noar{position:absolute;left:12px;right:12px;bottom:12px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px;display:none;gap:12px;align-items:center}
+.noar svg{width:96px;height:96px;flex:none;background:#fff;border-radius:6px}
+.prog{position:absolute;left:0;top:0;height:3px;background:var(--acc);width:0;transition:width .2s}
+.card{margin:12px 16px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.card h2{font-size:14px;margin:0 0 6px}
+.card p{margin:0;color:var(--mute);font-size:13.5px}
+ol{margin:4px 0 0;padding-left:20px}
+ol li{margin:4px 0}
+.chip{display:inline-block;background:var(--chip);border-radius:8px;padding:3px 8px;font-size:12.5px;margin-top:8px}
+.err{color:#b3261e}
+footer{color:var(--mute);font-size:12px;padding:4px 16px 24px}
+</style>
+</head>
+<body>
+<header><h1 id="t">Modelo en realidad aumentada</h1><div class="sub" id="s"></div></header>
+<div class="seg" id="seg" role="group" aria-label="Modo"></div>
+<div class="stage">
+  <model-viewer id="mv" ar ar-modes="webxr scene-viewer quick-look" ar-placement="floor" camera-controls touch-action="pan-y"
+    shadow-intensity="0.6" exposure="1.05" environment-image="neutral" interaction-prompt="none" alt="Modelo BIM del proyecto">
+    <button slot="ar-button" class="arbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>Ver en realidad aumentada</button>
+    <div class="prog" slot="progress-bar" id="prog"></div>
+  </model-viewer>
+  <div class="noar" id="noar"><div id="qr"></div><div><b>Abre esta página en tu celular</b><br>La realidad aumentada funciona en Android (Chrome) y iPhone o iPad (Safari). Escanea el código con la cámara.</div></div>
+</div>
+<section class="card"><h2 id="vt"></h2><p id="vd"></p></section>
+<section class="card" id="pasos"><h2>Cómo verlo a tamaño real en el terreno</h2><ol id="ol"></ol><span class="chip" id="org"></span></section>
+<footer>Motor BIM · realidad aumentada con WebXR (Android) y AR Quick Look (iOS).</footer>
+<script>
+(async()=>{
+  const q=new URLSearchParams(location.search),p=(q.get('p')||'').replace(/[^a-z0-9_-]/gi,''),mode0=q.get('m');
+  const $=s=>document.querySelector(s),mv=$('#mv');
+  if(!p){$('#t').textContent='Falta el proyecto';$('#s').innerHTML='<span class="err">Usa el código QR del visor BIM.</span>';return;}
+  let I;try{I=await (await fetch(p+'/info.json',{cache:'no-cache'})).json();}catch(e){$('#t').textContent='Proyecto no encontrado';$('#s').textContent=p;return;}
+  document.title=I.titulo+' · Realidad aumentada';$('#t').textContent=I.titulo;$('#s').textContent=I.sub||'';
+  (I.pasos||[]).forEach(x=>{const li=document.createElement('li');li.textContent=x;$('#ol').appendChild(li);});
+  $('#org').textContent='Origen: '+(I.origen||'');
+  const keys=Object.keys(I.variantes);
+  function set(k){const v=I.variantes[k];
+    mv.setAttribute('ar-scale',v.escala==='fixed'?'fixed':'auto');mv.src=p+'/'+v.glb;
+    $('#vt').textContent=v.nombre;$('#vd').textContent=v.texto||'';$('#pasos').hidden=v.escala!=='fixed';
+    document.querySelectorAll('#seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));
+    try{history.replaceState(null,'','?p='+p+'&m='+k);}catch(e){}}
+  keys.forEach(k=>{const b=document.createElement('button');b.dataset.k=k;b.textContent=I.variantes[k].nombre;b.onclick=()=>set(k);$('#seg').appendChild(b);});
+  set(keys.includes(mode0)?mode0:keys[0]);
+  mv.addEventListener('progress',e=>{const f=e.detail.totalProgress;$('#prog').style.width=(f*100)+'%';$('#prog').style.opacity=f>=1?0:1;});
+  mv.addEventListener('ar-status',e=>{if(e.detail.status==='failed')alertBox('No se pudo iniciar la realidad aumentada en este dispositivo.');});
+  mv.addEventListener('load',()=>{if(!mv.canActivateAR)$('#noar').style.display='flex';});
+  function alertBox(t){$('#vd').innerHTML='';const s=document.createElement('span');s.className='err';s.textContent=t;$('#vd').appendChild(s);}
+  if(I.qr)$('#qr').innerHTML=I.qr;
+})();
+</script>
+</body>
+</html>
